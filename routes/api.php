@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\API\ProductController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,18 +18,19 @@ use Illuminate\Support\Facades\Route;
 // API Authentication
 Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register']);
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login']);
+
 // Public
-Route::get('/product', [\App\Http\Controllers\ProductController::class, 'index']);
-Route::get('/product/show/{id}', [\App\Http\Controllers\ProductController::class, 'show']);
-Route::get('/product/search/{name}', [\App\Http\Controllers\ProductController::class, 'search']);
+Route::get('/product', [ProductController::class, 'index']);
+Route::get('/product/show/{id}', [ProductController::class, 'show']);
+Route::get('/product/search/{name}', [ProductController::class, 'search']);
 
 
 
 // Protect
 Route::group(['middleware'=>['auth:sanctum']], function(){
-    Route::post('/product/store', [\App\Http\Controllers\ProductController::class, 'store']);
-    Route::post('/product/update', [\App\Http\Controllers\ProductController::class, 'update']);
-    Route::delete('/product/{id}', [\App\Http\Controllers\ProductController::class, 'delete']);
+    Route::post('/product/store', [ProductController::class, 'store']);
+    Route::post('/product/update', [ProductController::class, 'update']);
+    Route::delete('/product/destroy/{id}', [ProductController::class, 'destroy']);
 
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });

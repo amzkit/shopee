@@ -53,7 +53,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('myshopee')->plainTextToken;
 
-        Auth::login($user);
+        //Auth::login($user);
 
         $response = [
             'user'  =>  $user,
