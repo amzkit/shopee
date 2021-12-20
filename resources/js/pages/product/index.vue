@@ -253,7 +253,7 @@
                         image: this.editedItem.image,
                     })
                     .then(response =>{
-                         this.products.push(this.editedItem)
+                        this.initialize()
                     })
                     .catch(error => {
                         console.log("error")

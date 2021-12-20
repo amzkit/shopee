@@ -5670,7 +5670,7 @@ __webpack_require__.r(__webpack_exports__);
           price: this.editedItem.price,
           image: this.editedItem.image
         }).then(function (response) {
-          _this5.products.push(_this5.editedItem);
+          _this5.initialize();
         })["catch"](function (error) {
           console.log("error");
         });

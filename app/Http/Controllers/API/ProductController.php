@@ -30,10 +30,9 @@ class ProductController extends Controller
     {
         //
         $request->validate([
-            'name'  =>  'required',
+            'name'          =>  'required',
             'description'   =>  'required',
-            'price' =>  'required',
-            'image' =>  'required',
+            'price'         =>  'required',
         ]);
 
         $product = Product::create($request->all());
@@ -61,9 +60,24 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        //dd($request->all());
+        $id = $request->id;
+
+        $product = Product::find($id);
+        //dd($product);
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->save();
+
+        return response()->json([
+            'success'=>true,
+            'message'=>'update success',
+            'product'=>$product
+        ]);
     }
 
     /**
