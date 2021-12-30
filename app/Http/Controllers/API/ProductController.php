@@ -8,15 +8,28 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        return $request->user()->role;
         //
-        $products = Product::all();
+        //return response()->json(['request'=>$request->all()]);
+        $user_id = $request->user()->id??0;
+
+        $page = $request->page??1;
+        $itemsPerPage = $request->itemsPerPage??10;
+
+        $pagination = Product::where('user_id', $user_id)->paginate($itemsPerPage, ['*'], 'page', $page);
+        $products = $pagination->items();
+
+        //$page = 1;
+        //$itemsPerPage = 10;
 
 
         return response()->json([
             'success'   =>  true,
-            'products'  =>  $products
+            'products'  =>  $products,
+            'pagination'=>  $pagination,
+
         ]);
     }
 
@@ -29,13 +42,23 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+
+        $user = $request->user();
+        $user_id = $user->id;
+
         $request->validate([
             'name'          =>  'required',
             'description'   =>  'required',
             'price'         =>  'required',
         ]);
 
-        $product = Product::create($request->all());
+        $product = new Product;
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->image = $request->image;
+        $product->user_id = $user_id;
+        $product->save();
 
         return $product;
     }

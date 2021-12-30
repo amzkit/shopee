@@ -6,6 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="role" content="{{ Auth::user()->role??'guest' }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
